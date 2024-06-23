@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser, BaseUserManager, PermissionsMixin
-
+from problem.models import Problem
 # Create your models here.
 
 class CustomUserManager(BaseUserManager):
@@ -27,9 +27,12 @@ class CustomUserManager(BaseUserManager):
         return self.create_user(email, password, **extra_fields)
 
 class User(AbstractUser, PermissionsMixin):
+    name = models.CharField(max_length=100, blank=True, null=True)
     email = models.EmailField(max_length=100, unique=True)
     password = models.CharField(max_length=100, blank=True, null=True)
-    name = models.CharField(max_length=100, blank=True, null=True)
+    likedProblems = models.ManyToManyField(Problem, related_name='liked_by_users', blank=True)
+    dislikedProblems = models.ManyToManyField(Problem, related_name='disliked_by_users', blank=True)
+    solvedProblems = models.ManyToManyField(Problem, related_name='solved_by_users', blank=True)
     date_joined = models.DateTimeField(auto_now_add=True)
     is_active = models.BooleanField(default=True)
     is_superuser = models.BooleanField(default=False)
