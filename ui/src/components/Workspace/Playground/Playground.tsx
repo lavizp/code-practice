@@ -5,7 +5,6 @@ import CodeMirror from "@uiw/react-codemirror";
 import { vscodeDark } from "@uiw/codemirror-theme-vscode";
 import { javascript } from "@codemirror/lang-javascript";
 import EditorFooter from "./EditorFooter";
-import { Problem } from "@/utils/types/problem";
 // import { useAuthState } from "react-firebase-hooks/auth";
 // import { auth, firestore } from "@/firebase/firebase";
 import { toast } from "react-toastify";
@@ -13,9 +12,10 @@ import { problems } from "@/utils/problems/index";
 import { useRouter } from "next/router";
 // import { arrayUnion, doc, updateDoc } from "firebase/firestore";
 import useLocalStorage from "@/utils/hooks/useLocalStorage";
+import { IProblem } from "@/utils/types/problem";
 
 type PlaygroundProps = {
-  problem: Problem;
+  problem: IProblem;
   setSuccess: React.Dispatch<React.SetStateAction<boolean>>;
   setSolved: React.Dispatch<React.SetStateAction<boolean>>;
 };
@@ -151,7 +151,7 @@ const Playground: React.FC<PlaygroundProps> = ({
             </div>
           </div>
 
-          <div className="flex">
+          {/* <div className="flex">
             {problem.examples.map((example, index) => (
               <div
                 className="mr-2 items-start mt-2 "
@@ -169,16 +169,16 @@ const Playground: React.FC<PlaygroundProps> = ({
                 </div>
               </div>
             ))}
-          </div>
+          </div> */}
 
           <div className="font-semibold my-4">
             <p className="text-sm font-medium mt-4 text-white">Input:</p>
             <div className="w-full cursor-text rounded-lg border px-3 py-[10px] bg-dark-fill-3 border-transparent text-white mt-2">
-              {problem.examples[activeTestCaseId].inputText}
+              {/* {problem.examples[activeTestCaseId].inputText} */}
             </div>
             <p className="text-sm font-medium mt-4 text-white">Output:</p>
             <div className="w-full cursor-text rounded-lg border px-3 py-[10px] bg-dark-fill-3 border-transparent text-white mt-2">
-              {problem.examples[activeTestCaseId].outputText}
+              {/* {problem.examples[activeTestCaseId].outputText} */}
             </div>
           </div>
         </div>

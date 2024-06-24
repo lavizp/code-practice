@@ -1,32 +1,18 @@
-export type Example = {
-	id: number;
-	inputText: string;
-	outputText: string;
-	explanation?: string;
-	img?: string;
-};
+type Difficulty = "Easy" | "Medium" | "Hard";
 
-// local problem data
-export type Problem = {
-	id: string;
-	title: string;
-	problemStatement: string;
-	examples: Example[];
-	constraints: string;
-	order: number;
-	starterCode: string;
-	handlerFunction: ((fn: any) => boolean) | string;
-	starterFunctionName: string;
-};
-
-export type DBProblem = {
-	id: string;
-	title: string;
-	category: string;
-	difficulty: string;
-	likes: number;
-	dislikes: number;
-	order: number;
-	videoId?: string;
-	link?: string;
-};
+export interface IProblem {
+  id: number;
+  title: string;
+  category: string;
+  difficulty: Difficulty;
+  likes: number;
+  dislikes: number;
+  order: number;
+  videoId?: string | null;
+  link?: string | null;
+  problemStatement: string; // HTML content stored as text
+  constraints: string; // HTML content stored as text
+  handlerFunction: string;
+  starterCode: string;
+  starterFunctionName: string;
+}

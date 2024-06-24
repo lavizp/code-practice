@@ -1,11 +1,13 @@
+import axiosInstance from "@/apiconfig/axiosInstance";
 import Workspace from "@/components/Workspace/Workspace";
 import Topbar from "@/components/common/Topbar";
-import { problems } from "@/utils/problems/index";
-import { Problem } from "@/utils/types/problem";
+// import { problems } from "@/utils/problems/index";
+import { IProblem } from "@/utils/types/problem";
 import React from "react";
+import { useQueries, useQuery } from "react-query";
 
 type ProblemPageProps = {
-  problem: Problem;
+  problem: IProblem;
 };
 
 const ProblemPage: React.FC<ProblemPageProps> = ({ problem }) => {
@@ -22,8 +24,10 @@ export default ProblemPage;
 //  SSG
 // getStaticPaths => it create the dynamic routes
 export async function getStaticPaths() {
-  const paths = Object.keys(problems).map((key) => ({
-    params: { pid: key },
+  let res = await axiosInstance.get("/problem");
+  let problems: IProblem[] = res.data;
+  const paths = problems.map((item: IProblem) => ({
+    params: { pid: item.id.toString() },
   }));
 
   return {
@@ -36,14 +40,14 @@ export async function getStaticPaths() {
 
 export async function getStaticProps({ params }: { params: { pid: string } }) {
   const { pid } = params;
-  const problem = problems[pid];
-
+  let res = await axiosInstance.get(`/problem/${pid}/`);
+  let problem: IProblem = res.data;
   if (!problem) {
     return {
       notFound: true,
     };
   }
-  problem.handlerFunction = problem.handlerFunction.toString();
+  problem.handlerFunction = problem.handlerFunction;
   return {
     props: {
       problem,

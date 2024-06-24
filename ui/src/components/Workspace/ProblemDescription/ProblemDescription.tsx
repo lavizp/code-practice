@@ -1,7 +1,7 @@
 // import { auth, firestore } from "@/firebase/firebase";
 import CircleSkeleton from "@/components/skeletons/CircleSkeleton";
 import RectangleSkeleton from "@/components/skeletons/RectangleSkeleton";
-import { DBProblem, Problem } from "@/utils/types/problem";
+import { IProblem } from "@/utils/types/problem";
 // import { arrayRemove, arrayUnion, doc, getDoc, runTransaction, updateDoc } from "firebase/firestore";
 import { useEffect, useState } from "react";
 // import { useAuthState } from "react-firebase-hooks/auth";
@@ -16,7 +16,7 @@ import { TiStarOutline } from "react-icons/ti";
 import { toast } from "react-toastify";
 
 type ProblemDescriptionProps = {
-  problem: Problem;
+  problem: IProblem;
   _solved: boolean;
 };
 
@@ -26,9 +26,9 @@ const ProblemDescription: React.FC<ProblemDescriptionProps> = ({
 }) => {
   // const [user] = useAuthState(auth);
   const { currentProblem, loading, problemDifficultyClass, setCurrentProblem } =
-    useGetCurrentProblem(problem.id);
+    useGetCurrentProblem(problem.id.toString());
   const { liked, disliked, solved, setData, starred } =
-    useGetUsersDataOnProblem(problem.id);
+    useGetUsersDataOnProblem(problem.id.toString());
   const [updating, setUpdating] = useState(false);
 
   // const returnUserDataAndProblemData = async (transaction: any) => {
@@ -286,7 +286,7 @@ const ProblemDescription: React.FC<ProblemDescriptionProps> = ({
               />
             </div>
             {/* Examples */}
-            <div className="mt-4">
+            {/* <div className="mt-4">
               {problem.examples.map((example, index) => (
                 <div key={example.id}>
                   <p className="font-medium text-white ">
@@ -311,7 +311,7 @@ const ProblemDescription: React.FC<ProblemDescriptionProps> = ({
                   </div>
                 </div>
               ))}
-            </div>
+            </div> */}
             {/* Constraints */}
             <div className="my-8 pb-4">
               <div className="text-white text-sm font-medium">Constraints:</div>
@@ -330,7 +330,7 @@ const ProblemDescription: React.FC<ProblemDescriptionProps> = ({
 export default ProblemDescription;
 
 function useGetCurrentProblem(problemId: string) {
-  const [currentProblem, setCurrentProblem] = useState<DBProblem | null>(null);
+  const [currentProblem, setCurrentProblem] = useState<IProblem | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [problemDifficultyClass, setProblemDifficultyClass] =
     useState<string>("");

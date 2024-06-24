@@ -2,12 +2,12 @@ import { useState } from "react";
 import Split from "react-split";
 import ProblemDescription from "./ProblemDescription/ProblemDescription";
 import Playground from "./Playground/Playground";
-import { Problem } from "@/utils/types/problem";
 import Confetti from "react-confetti";
 import useWindowSize from "@/utils/hooks/useWindowSize";
+import { IProblem } from "@/utils/types/problem";
 
 type WorkspaceProps = {
-  problem: Problem;
+  problem: IProblem;
 };
 
 const Workspace: React.FC<WorkspaceProps> = ({ problem }) => {
