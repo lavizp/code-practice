@@ -13,6 +13,8 @@ import { useRouter } from "next/router";
 // import { arrayUnion, doc, updateDoc } from "firebase/firestore";
 import useLocalStorage from "@/utils/hooks/useLocalStorage";
 import { IProblem } from "@/utils/types/problem";
+import { useQuery } from "react-query";
+import axiosInstance from "@/apiconfig/axiosInstance";
 
 type PlaygroundProps = {
   problem: IProblem;
@@ -41,11 +43,18 @@ const Playground: React.FC<PlaygroundProps> = ({
     settingsModalIsOpen: false,
     dropdownIsOpen: false,
   });
-
-  // const [user] = useAuthState(auth);
   const {
     query: { pid },
   } = useRouter();
+  const { data: problemData, status: problemLoadingStatus } = useQuery(
+    ["problem-detail", pid],
+    async () => {
+      const res = await axiosInstance.get(`problem/${pid}/`);
+      console.log(res.data);
+      return res.data;
+    }
+  );
+  // const [user] = useAuthState(auth);
 
   const handleSubmit = async () => {
     // if (!user) {
@@ -59,9 +68,12 @@ const Playground: React.FC<PlaygroundProps> = ({
     try {
       userCode = userCode.slice(userCode.indexOf(problem.starterFunctionName));
       const cb = new Function(`return ${userCode}`)();
-      const handler = problems[pid as string].handlerFunction;
-
+      const rawHandler = problem.handlerFunction;
+      const a = problems[1];
+      const handler = new Function("fn", a);
+      console.log("hahah");
       if (typeof handler === "function") {
+        console.log("ya aayop");
         const success = handler(cb);
         if (success) {
           toast.success("Congrats! All tests passed!", {
